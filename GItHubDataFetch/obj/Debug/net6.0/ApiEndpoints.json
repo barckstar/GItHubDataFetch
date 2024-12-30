@@ -1,0 +1,32 @@
+[
+  {
+    "ContainingType": "GItHubDataFetch.Controllers.GitHubController",
+    "Method": "GetRepositories",
+    "RelativePath": "GitHub",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GItHubDataFetch.Controllers.GitHubController",
+    "Method": "ReposShortFormated",
+    "RelativePath": "GitHub/ReposShortFormated",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "GItHubDataFetch.Models.GitHub",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  }
+]
