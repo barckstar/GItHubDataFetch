@@ -36,8 +36,8 @@ jobs:
       - name: Deploy to Somee
         uses: SamKirkland/FTP-Deploy-Action@v4
         with:
-          server: ${{ secrets.SOMEE_FTP_HOST }}
-          username: ${{ secrets.SOMEE_FTP_USERNAME }}
-          password: ${{ secrets.SOMEE_FTP_PASSWORD }}
+          server: ftp://GitHubDataFech.somee.com/www.GitHubDataFech.somee.com
+          username: BarckStar
+          password: Barck0914
           local-dir: ./publish
           server-dir: /  # Cambia esto si necesitas subir a una carpeta específica
