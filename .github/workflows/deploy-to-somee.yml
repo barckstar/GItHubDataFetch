@@ -1,0 +1,43 @@
+name: Deploy to Somee
+
+on:
+  push:
+    branches:
+      - main  # Cambia a la rama que uses para producción
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Paso 1: Checkout del código
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Paso 2: Configurar .NET SDK
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.0.x'  # Cambia a la versión de .NET que uses
+
+      # Paso 3: Restaurar dependencias
+      - name: Restore dependencies
+        run: dotnet restore
+
+      # Paso 4: Compilar el proyecto
+      - name: Build project
+        run: dotnet build --configuration Release --no-restore
+
+      # Paso 5: Publicar el proyecto
+      - name: Publish project
+        run: dotnet publish -c Release -o ./publish
+
+      # Paso 6: Desplegar a Somee via FTP
+      - name: Deploy to Somee
+        uses: SamKirkland/FTP-Deploy-Action@v4
+        with:
+          server: ${{ secrets.SOMEE_FTP_HOST }}
+          username: ${{ secrets.SOMEE_FTP_USERNAME }}
+          password: ${{ secrets.SOMEE_FTP_PASSWORD }}
+          local-dir: ./publish
+          server-dir: /  # Cambia esto si necesitas subir a una carpeta específica
