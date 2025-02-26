@@ -44,14 +44,12 @@ namespace GItHubDataFetch.Services
 
         }
 
-        // Nuevo método para obtener el README.md de un repositorio específico
         public async Task<string> GetReadmeContent(string repo)
         {
             var client = _httpClientFactory.CreateClient("GitHubClient");
             var response = await client.GetAsync($"repos/barckstar/{repo}/contents/README.md");
             response.EnsureSuccessStatusCode();
 
-            // Leer la respuesta como un objeto JSON
             var contentResponse = await response.Content.ReadAsStringAsync();
             var readmeObject = JsonConvert.DeserializeObject<GitHubReadmeResponse>(contentResponse);
 
@@ -60,7 +58,6 @@ namespace GItHubDataFetch.Services
                 return "README.md not found or empty.";
             }
 
-            // Decodificar el contenido Base64
             var readmeContent = Encoding.UTF8.GetString(Convert.FromBase64String(readmeObject.Content));
             return readmeContent;
         }
