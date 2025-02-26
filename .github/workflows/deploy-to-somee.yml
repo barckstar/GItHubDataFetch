@@ -10,18 +10,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Paso 1: Checkout del código usando git clone
+      # Paso 1: Checkout del código
       - name: Checkout code
-        run: |
-          git clone https://github.com/barckstar/GItHubDataFetch.git .
-          git checkout main
+        uses: actions/checkout@v3
 
-      # Paso 2: Instalar .NET manualmente
-      - name: Install .NET
-        run: |
-          wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh
-          chmod +x dotnet-install.sh
-          ./dotnet-install.sh --version 6.0.x
+      # Paso 2: Configurar .NET SDK
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.0.401'  # Versión exacta de .NET
 
       # Paso 3: Restaurar dependencias
       - name: Restore dependencies
@@ -35,13 +32,12 @@ jobs:
       - name: Publish project
         run: dotnet publish -c Release -o ./publish
 
-      # Paso 6: Desplegar a Somee usando lftp
+      # Paso 6: Desplegar a Somee via FTP
       - name: Deploy to Somee
-        run: |
-          lftp -e "
-            set ftp:ssl-allow no;
-            open ${{ secrets.SOMEE_FTP_HOST }};
-            user ${{ secrets.SOMEE_FTP_USERNAME }} ${{ secrets.SOMEE_FTP_PASSWORD }};
-            mirror --reverse --delete ./publish /;
-            quit;
-          "
+        uses: SamKirkland/FTP-Deploy-Action@v4
+        with:
+          server: ${{ secrets.SOMEE_FTP_HOST }}
+          username: ${{ secrets.SOMEE_FTP_USERNAME }}
+          password: ${{ secrets.SOMEE_FTP_PASSWORD }}
+          local-dir: ./publish
+          server-dir: /
