@@ -1,11 +1,12 @@
 {
   "Version": 1,
-  "Hash": "tJ8sWwTM4Ughx4lCtsSu6HSg6qMRbGcHZC2Jh/+cvZE=",
+  "Hash": "DcJaWnJReiE6CjI/jGlM6DZQjz8LEg2SzYtetrPrr2U=",
   "Source": "GItHubDataFetch",
   "BasePath": "_content/GItHubDataFetch",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [],
-  "Assets": []
+  "Assets": [],
+  "Endpoints": []
 }

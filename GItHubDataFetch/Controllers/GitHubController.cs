@@ -30,6 +30,13 @@ namespace GItHubDataFetch.Controllers
             return Ok(reposShort);
         }
 
+        [HttpGet("readme")]
+        public async Task<IActionResult> GetReadme(string repo)
+        {
+            var readmeContent = await _gitHubService.GetReadmeContent(repo);
+            return Ok(readmeContent);
+        }
+
     }
 }
 

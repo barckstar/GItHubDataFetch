@@ -6,5 +6,6 @@ namespace GItHubDataFetch.Interfaces
     {
         Task<string> GetRepositories();
         Task<List<GitHub>> ReposShortFormated();
+        Task<string> GetReadmeContent(string repo);
     }
 }

@@ -18,5 +18,16 @@ namespace GItHubDataFetch.Models
 
         [JsonProperty("full_name")]
         public string FullName { get; set; }
+
+        [JsonProperty("topics")]
+        public List<string> Topics { get; set; }
+    }
+    public class GitHubReadmeResponse
+    {
+        [JsonProperty("content")]
+        public string Content { get; set; } = string.Empty;
+
+        [JsonProperty("encoding")]
+        public string Encoding { get; set; } = string.Empty;
     }
 }

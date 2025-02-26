@@ -11,6 +11,22 @@
   },
   {
     "ContainingType": "GItHubDataFetch.Controllers.GitHubController",
+    "Method": "GetReadme",
+    "RelativePath": "GitHub/readme",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "repo",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GItHubDataFetch.Controllers.GitHubController",
     "Method": "ReposShortFormated",
     "RelativePath": "GitHub/ReposShortFormated",
     "HttpMethod": "GET",
