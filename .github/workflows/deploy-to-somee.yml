@@ -3,22 +3,25 @@ name: Deploy to Somee
 on:
   push:
     branches:
-      - main  # Cambia a la rama que uses para producción
+      - main
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # Paso 1: Checkout del código
+      # Paso 1: Checkout del código usando git clone
       - name: Checkout code
-        uses: actions/checkout@v3
+        run: |
+          git clone https://github.com/barckstar/GItHubDataFetch.git .
+          git checkout main
 
-      # Paso 2: Configurar .NET SDK
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '6.0.x'  # Cambia a la versión de .NET que uses
+      # Paso 2: Instalar .NET manualmente
+      - name: Install .NET
+        run: |
+          wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh
+          chmod +x dotnet-install.sh
+          ./dotnet-install.sh --version 6.0.x
 
       # Paso 3: Restaurar dependencias
       - name: Restore dependencies
@@ -32,12 +35,13 @@ jobs:
       - name: Publish project
         run: dotnet publish -c Release -o ./publish
 
-      # Paso 6: Desplegar a Somee via FTP
+      # Paso 6: Desplegar a Somee usando lftp
       - name: Deploy to Somee
-        uses: SamKirkland/FTP-Deploy-Action@v4
-        with:
-          server: ftp://GitHubDataFech.somee.com/www.GitHubDataFech.somee.com
-          username: BarckStar
-          password: Barck0914
-          local-dir: ./publish
-          server-dir: /  # Cambia esto si necesitas subir a una carpeta específica
+        run: |
+          lftp -e "
+            set ftp:ssl-allow no;
+            open ${{ secrets.SOMEE_FTP_HOST }};
+            user ${{ secrets.SOMEE_FTP_USERNAME }} ${{ secrets.SOMEE_FTP_PASSWORD }};
+            mirror --reverse --delete ./publish /;
+            quit;
+          "
